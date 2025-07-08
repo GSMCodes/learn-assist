@@ -1,19 +1,18 @@
-'use client'
-
-import { AuroraBackground } from '@/components/ui/aurora-background';
+// src/app/page.js
 import React from 'react';
-import Headings from '@/components/ui/headings'; 
+import Headings from '@/components/ui/Headings';
 import Search from '@/components/ui/Search';
 
 const Page = () => {
   return (
-    <main className="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden">
+  
+    <div className="flex flex-col items-center justify-center py-10 min-h-screen">
+      
+      <Headings />
 
-      <Headings/>
       <Search />
-      <AuroraBackground className="absolute inset-0 z-0"></AuroraBackground>
 
-    </main>
+    </div>
   );
 };
 

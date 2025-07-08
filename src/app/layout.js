@@ -1,5 +1,6 @@
 import { Oswald, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { AuroraBackground } from '@/components/ui/aurora-background'
 
 const oswald = Oswald({
   subsets: ['latin'], 
@@ -22,10 +23,14 @@ const geistMono = Geist_Mono({
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body>
+        <div className="relative w-full h-screen overflow-hidden">
+          <AuroraBackground className="absolute inset-0 z-0" />
+          <div className="relative z-10 w-full h-full overflow-y-auto">
+            {children}
+          </div>
+        </div>
+        
       </body>
     </html>
   );

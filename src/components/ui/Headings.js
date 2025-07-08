@@ -4,9 +4,9 @@ import React from 'react';
 const Headings = () => {
   return (
 
-    <div className="z-10 max-w-4xl p-8 text-white text-center">
+    <div className="z-10 max-w-4xl p-8 text-blue-50 text-center">
       {}
-      <div id='headings' className='mb-5'>
+      <div id='headings' className='mb-10'>
         {}
         <h1 className="text-5xl md:text-6xl font-bold mb-4">LearnAssist</h1>
       </div>
