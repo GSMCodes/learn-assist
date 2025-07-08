@@ -15,3 +15,31 @@
     }
   }
 }
+
+@theme {
+  --font-family-oswald: var(--font-oswald), sans-serif;
+  --font-weight-extralight: 200;
+  --font-weight-light: 300;
+  --font-weight-medium: 500;
+}
+
+h1 {
+  font-family: var(--font-family-oswald);
+  font-weight: var(--font-weight-medium); 
+}
+
+p {
+  font-family: var(--font-family-oswald);
+  font-weight: var(--font-weight-light); 
+}
+
+
+button {
+   font-family: var(--font-family-oswald);
+   font-weight: var(--font-weight-extralight); 
+}
+
+input{
+  font-family: var(--font-family-oswald);
+  font-weight: var(--font-weight-extralight);
+}
