@@ -1,14 +1,14 @@
 # 📚 Learn Assist  
-**Streamline Your Studies: AI-Powered Syllabus Notes & More!**
+**Streamline Your Studies: AI-Powered Notes &  Personalized curated youtube playlists!**
 
 ---
 
 ## 🚀 About The Project
 
-**Learn Assist** is an innovative web application designed to revolutionize how students approach their studies. In the demanding academic world, time and resource management are crucial. This project tackles the challenge of efficiently creating study materials by allowing students to quickly transform their extensive syllabi into concise, AI-generated short notes.
+**Learn Assist** is an innovative web application designed to revolutionize how students approach their studies. In the demanding academic world, effective time and resource management are crucial. This project tackles the challenge of efficiently creating study materials by allowing students to quickly transform their extensive syllabi into tailored learning aids: get either concise, AI-generated PDF notes for quick revision, or expertly curated YouTube playlists for dynamic, visual learning journeys.
 
 > No more tedious manual summarization or sifting through vast amounts of information!  
-Just paste your syllabus, and let Learn Assist do the heavy lifting—giving you more time to focus on understanding and retention.
+Just paste your syllabus or list of topics,**(in a csv format)** and let Learn Assist do the heavy lifting—giving you more time to focus on understanding and retention.
 
 ---
 
@@ -18,15 +18,17 @@ Just paste your syllabus, and let Learn Assist do the heavy lifting—giving you
 - **AI-Powered Note Generation**  
   Input your syllabus topics, and the application uses **Google Gemini AI (gemini-2.0-flash model)** to generate detailed yet concise short notes.
 
+- **Curated Learning Playlists** 
+  A "Create Playlist" feature to expertly curate relevant video playlists from YouTube, designed for dynamic visual understanding.
+
 - **PDF Export**  
   Automatically compiles the generated notes into a neatly formatted PDF for offline study, printing, or sharing.
 
 - **Intuitive Interface**  
   Built with a modern, engaging UI using **Aceternity UI**, ensuring a smooth and pleasant user experience.
 
+
 ### 🛣️ Planned Features (Roadmap)
-- **Curated Learning Playlists** *(Coming Soon)*  
-  A "Create Playlist" feature to generate curated learning resources from YouTube, websites, etc.
 
 - **User Accounts & Saved Notes**  
   Allow users to sign in, save, and revisit their generated content.
@@ -39,6 +41,13 @@ Just paste your syllabus, and let Learn Assist do the heavy lifting—giving you
 
 ---
 
+## 📸 Sreenshots:
+Homescreen: ![WhatsApp Image 2025-07-10 at 16 05 20_418b64af](https://github.com/user-attachments/assets/42506610-3a82-4960-b40f-80223df5bab6)
+Playlist Generator screen: ![WhatsApp Image 2025-07-10 at 17 42 43_c34cf360](https://github.com/user-attachments/assets/7028e79e-a093-403f-8016-c227bed55886)
+AI notes generator screen: ![WhatsApp Image 2025-07-10 at 15 35 39_12841e4a](https://github.com/user-attachments/assets/9103c69b-6720-40fe-8bc2-eec348f7e194)
+
+---
+
 ## 🛠️ Technologies Used
 
 ### 🔧 Frontend
@@ -48,6 +57,7 @@ Just paste your syllabus, and let Learn Assist do the heavy lifting—giving you
 ### ⚙️ Backend / API
 - Node.js
 - [Google Gemini AI](https://ai.google.dev) (`@google/generative-ai` with `gemini-2.0-flash`)
+- YouTube Data API v3 (via googleapis)
 - [PDFKit](https://pdfkit.org/)
 - [uuid](https://www.npmjs.com/package/uuid)
 
@@ -79,9 +89,10 @@ yarn install
 ```
 **3. Set up your enviromental variables:**
 Create a .env.local file in the root directory:
-
+```bash
 GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE
-
+YOUTUBE_API_KEY=YOUR_YOUTUBE_API_KEY_HERE
+```
 **4. Run development server:**
 ```bash
 npm run
@@ -129,8 +140,11 @@ Contributions are what make the open-source community such an amazing place to l
     Or open an issue with the tag "enhancement" for ideas and improvements.
 
 
+ 
 **📄 License**
 Distributed under the MIT License.
 See LICENSE for more information.
+
+
 
 **Made by Gurvansh Singh**
