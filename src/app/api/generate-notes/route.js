@@ -62,7 +62,7 @@ export async function POST(req) {
 
       const mainContextTopic = topics.length > 0 ? topics[0].split(':')[0]?.trim() || topics[0] : ''
 
-      const prompt = `Provide concise, detailed notes on the topic: "${topic}" with respect to ${mainContextTopic} . Focus on key concepts, definitions, and essential information. Structure it clearly. Aim for 4-5 paragraphs.`;
+      const prompt = `Provide concise, detailed notes on the topic: "${topic}", if the topic is vauge or without any context, you can use ${mainContextTopic} to provide a context. Focus on key concepts, definitions, and essential information. Structure it clearly. Aim for 4-5 paragraphs.`;
       let aiText = "Could not retrieve notes for this topic.";
 
       try {
