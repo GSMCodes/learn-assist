@@ -34,7 +34,8 @@ export default function PlaylistPage() {
           ← Back to Notes Generator
         </button>
 
-        <h1 className="text-3xl font-bold text-center mb-6 text-green-400">Your Curated Learning Playlist</h1>
+        <h1 className="text-3xl font-bold text-center mb-6 text-green-600">Your Curated Learning Playlist</h1>
+        <h3 className='text-xl font-medium text-center mb-6 text-gray-300 underline'>We offer 2 carefully selected videos per topic, giving you flexibility to choose your preferred explanation directly within this playlist.</h3>
 
         {error && (
           <p className="text-red-500 text-center mb-4">{error}</p>

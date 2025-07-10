@@ -18,22 +18,37 @@ export async function POST(req) {
 
     const videoIds = new Set();
 
+    const mainContextTopic = topics.length > 0 ? topics[0].split(':')[0]?.trim() || topics[0] : '';
+
     for (const topic of topics) {
       try {
-        console.log(`Searching YouTube for topic: "${topic}"`);
-        const searchResponse = await youtube.search.list({ 
-          q: `${topic} full explained`,
+        let searchQuery = `${topic}`;
+        const commonSearchKeywords = "full explained"; 
+
+        const shouldPrependContext = mainContextTopic &&
+                                     !topic.toLowerCase().includes(mainContextTopic.toLowerCase()) &&
+                                     topic.split(' ').length < 3;
+
+        if (shouldPrependContext) {
+            searchQuery = `${mainContextTopic} ${topic}`;
+        }
+
+        searchQuery = `${searchQuery} ${commonSearchKeywords}`;
+
+        console.log(`Searching YouTube for query: "${searchQuery}"`);
+        const searchResponse = await youtube.search.list({
+          q: searchQuery,
           part: 'snippet',
           type: 'video',
           maxResults: 2, 
           videoEmbeddable: 'true',
-          videoSyndicated: 'true', 
-          safeSearch: 'strict', 
+          videoSyndicated: 'true',
+          safeSearch: 'strict',
         });
 
         if (searchResponse.data.items && searchResponse.data.items.length > 0) {
           searchResponse.data.items.forEach(item => {
-            if (item.id && item.id.videoId) { 
+            if (item.id && item.id.videoId) {
                 videoIds.add(item.id.videoId);
             }
           });
@@ -41,7 +56,7 @@ export async function POST(req) {
         } else {
           console.log(`No videos found for "${topic}"`);
         }
-
+        
       } catch (youtubeError) {
         console.error(`ERROR: Youtube failed for topic "${topic}":`, youtubeError.message);
       }

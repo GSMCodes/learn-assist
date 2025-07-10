@@ -18,7 +18,7 @@ export default function NotesDisplayPage() {
             It looks like no PDF URL was provided. Please go back to the home page to generate your short notes.
           </p>
           <a
-            href="/" // Link back to your home page
+            href="/" 
             className="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-800 text-white font-semibold rounded-lg shadow-md hover:from-blue-700 hover:to-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 transition-all duration-200 text-lg hover:cursor-pointer"
           >
             Go to Home Page
