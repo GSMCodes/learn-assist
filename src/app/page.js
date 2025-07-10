@@ -1,6 +1,7 @@
 import React from 'react';
 import Headings from '@/components/Headings';
 import Search from '@/components/Search';
+import Footer from '@/components/Footer';
 
 const Page = () => {
 
@@ -12,6 +13,8 @@ const Page = () => {
       <Headings />
 
       <Search />
+
+      <Footer />
 
     </div>
   );
