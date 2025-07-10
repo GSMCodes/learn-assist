@@ -6,9 +6,52 @@ import { useRouter } from 'next/navigation'; // For App Router navigation
 
 const Search = () => {
   const [topicsInput, setTopicsInput] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); // For notes generation
   const [error, setError] = useState(null);
-  const router = useRouter(); // Initialize useRouter
+  const router = useRouter();
+  // const [playlistLink, setPlaylistLink] = useState(null); // <-- Correct: This line is removed/commented out
+  const [loadingPlaylist, setLoadingPlaylist] = useState(false); // For playlist generation
+
+  const handleGeneratePlaylist = async () => {
+    setLoadingPlaylist(true);
+    setError(null);
+    // setPlaylistLink(null); // <-- Correct: This line is removed/commented out
+
+    try {
+      // --- FIX 1: Use `topicsInput` here. It was `syllabusInput` previously. ---
+      const topics = topicsInput.split(/[\n,]+/).map(topic => topic.trim()).filter(topic => topic.length > 0);
+      if (topics.length === 0) {
+        setError("Please enter some topics to generate a playlist.");
+        setLoadingPlaylist(false);
+        return;
+      }
+
+      const response = await fetch('/api/generate-playlist', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ topics }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // --- FIX 2: Add the router.push() call here for navigation ---
+        router.push(`/playlist?youtubeUrl=${encodeURIComponent(data.playlistUrl)}`);
+        // The following lines are correctly commented out or removed, as we are navigating now:
+        // setPlaylistLink(data.playlistUrl);
+        // window.open(data.playlistUrl, '_blank');
+      } else {
+        setError(data.error || 'Failed to generate playlist.');
+      }
+    } catch (err) {
+      console.error("Error generating playlist:", err);
+      setError("An unexpected error occurred while generating playlist.");
+    } finally {
+      setLoadingPlaylist(false);
+    }
+  };
 
   const handleInputChange = (event) => {
     setTopicsInput(event.target.value);
@@ -27,7 +70,6 @@ const Search = () => {
     }
 
     try {
-      // 1. Call the backend API to generate and save the PDF
       const response = await fetch('/api/generate-notes', {
         method: 'POST',
         headers: {
@@ -41,14 +83,12 @@ const Search = () => {
         throw new Error(errorData.error || 'Failed to generate notes.');
       }
 
-      // 2. Get the PDF path from the backend response
-      const { pdfPath } = await response.json(); // Backend now sends back a JSON with pdfPath
+      const { pdfPath } = await response.json();
 
       if (!pdfPath) {
         throw new Error("PDF path not received from server.");
       }
 
-      // 3. Navigate to the /notes page, passing the PDF path as a query parameter
       router.push(`/notes?pdfUrl=${encodeURIComponent(pdfPath)}`);
 
     } catch (err) {
@@ -57,12 +97,6 @@ const Search = () => {
     } finally {
       setLoading(false); // Always stop loading
     }
-  };
-
-  // Do not interfere with Create Playlist button's functionality
-  const handleCreatePlaylist = () => {
-    // Your existing logic for Create Playlist button
-    console.log("Create Playlist button clicked!");
   };
 
   return (
@@ -76,7 +110,8 @@ const Search = () => {
                    transition-all duration-300 ease-in-out transform hover:scale-102 focus:scale-102"
         value={topicsInput} // Controlled component
         onChange={handleInputChange}
-        disabled={loading} // Disable input when loading
+        // --- FIX 3: Disable input if either notes or playlist is loading ---
+        disabled={loading || loadingPlaylist}
       />
 
       {/* Spacer */}
@@ -84,20 +119,22 @@ const Search = () => {
 
       {/* Buttons */}
       <div className="flex flex-col sm:flex-row gap-4 w-full justify-center ">
-        {/* Create Playlist Button - Unchanged */}
+        {/* Create Playlist Button */}
         <button
           className="flex-1 px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-800 text-white font-semibold rounded-lg shadow-md hover:from-blue-700 hover:to-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 transition-all duration-200 text-lg hover:cursor-pointer "
-          onClick={handleCreatePlaylist} // Assign your existing handler
-          disabled={loading} // Optionally disable if notes generation is ongoing
+          onClick={handleGeneratePlaylist} // Correct: Calls the handler for playlist generation
+          // --- FIX 4: Disable if loading any operation or input is empty ---
+          disabled={loading || loadingPlaylist || topicsInput.trim().length === 0}
         >
-          Create Playlist
+          {loadingPlaylist ? 'Creating Playlist...' : 'Create Curated Playlist'}
         </button>
 
         {/* Get Short Notes Button */}
         <button
           className="flex-1 px-8 py-4 bg-gradient-to-r from-purple-600 to-indigo-800 text-white font-semibold rounded-lg shadow-md hover:from-purple-700 hover:to-indigo-900 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-75 transition-all duration-200 text-lg hover:cursor-pointer"
           onClick={handleGetNotes}
-          disabled={loading || topicsInput.trim().length === 0} // Disable if loading or input is empty
+          // --- FIX 5: Also disable if playlist is loading, and check topicsInput ---
+          disabled={loading || loadingPlaylist || topicsInput.trim().length === 0}
         >
           {loading ? 'Generating Notes...' : 'Get Short Notes'}
         </button>
@@ -105,6 +142,8 @@ const Search = () => {
 
       {/* Error Message Display */}
       {error && <p className="text-red-500 mt-4 text-center">{error}</p>}
+
+      {/* --- Correct: The playlistLink display block is removed from here --- */}
     </div>
   );
 };

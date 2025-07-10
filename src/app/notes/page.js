@@ -1,15 +1,12 @@
-// src/app/notes/page.js
-"use client"; // This marks it as a Client Component
+"use client"; 
 
 import React from 'react';
-import { useSearchParams } from 'next/navigation'; // Hook to read URL query parameters
+import { useSearchParams } from 'next/navigation'; 
 
 export default function NotesDisplayPage() {
-  // Get query parameters from the URL
   const searchParams = useSearchParams();
-  const pdfUrl = searchParams.get('pdfUrl'); // This will be like "/pdfs/your-unique-id.pdf"
+  const pdfUrl = searchParams.get('pdfUrl'); 
 
-  // --- Handle Case: No PDF URL Found ---
   if (!pdfUrl) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white p-6">
@@ -31,14 +28,10 @@ export default function NotesDisplayPage() {
     );
   }
 
-  // --- Handle PDF Download ---
   const handleDownload = () => {
-    // This method is simple and relies on the browser's default behavior for PDF links.
-    // It will typically open the PDF in a new tab, where the user can then save/download it.
     window.open(pdfUrl, '_blank');
   };
 
-  // --- Main Render: Display PDF and Download Button ---
   return (
     <div className="min-h-screen flex flex-col items-center bg-gray-900 text-white p-6 md:p-10">
       {/* Page Title */}
@@ -48,14 +41,14 @@ export default function NotesDisplayPage() {
 
       {/* PDF Display Area */}
       <div className="w-full max-w-4xl lg:max-w-6xl bg-gray-800 rounded-xl shadow-2xl p-2 md:p-4 mb-8 overflow-hidden"
-           style={{ height: '70vh', minHeight: '400px' }}> {/* Adjust height as needed */}
+           style={{ height: '70vh', minHeight: '400px' }}> {}
         <iframe
           src={pdfUrl}
           title="Generated Short Notes PDF Viewer"
           width="100%"
           height="100%"
-          style={{ border: 'none', borderRadius: '8px' }} // Match parent border-radius
-          className="shadow-inner" // Add a subtle inner shadow
+          style={{ border: 'none', borderRadius: '8px' }}
+          className="shadow-inner"
         >
           {/* Fallback content for browsers that don't support iframes */}
           <p className="text-center text-gray-400 p-4">
@@ -73,7 +66,7 @@ export default function NotesDisplayPage() {
         Download PDF
       </button>
 
-      {/* Optional: Add a link back to home if user wants to generate more */}
+      {}
       <div className="mt-8 text-center">
         <p className="text-gray-400 text-lg">
           Want to generate more notes?{' '}

@@ -1,19 +1,15 @@
-// src/app/api/generate-notes/route.js
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import PDFDocument from 'pdfkit';
 import { NextResponse } from 'next/server';
-import fs from 'fs/promises'; // For file system operations (saving PDF and reading font)
-import path from 'path'; // For path manipulation
-import { v4 as uuidv4 } from 'uuid'; // To generate unique filenames
+import fs from 'fs/promises';
+import path from 'path'; 
+import { v4 as uuidv4 } from 'uuid'; 
 
-// Initialize AI client
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
-// Define the path to your font file
-// process.cwd() gets the root of your Next.js project
 const FONT_PATH = path.join(process.cwd(), 'src', 'assets', 'fonts', 'OpenSans-VariableFont_wdth,wght.ttf');
-let fontBuffer = null; // To store the font data once read
+let fontBuffer = null; 
 
 export async function POST(req) {
   try {
@@ -26,7 +22,6 @@ export async function POST(req) {
       return NextResponse.json({ error: 'No topics provided or topics format is incorrect.' }, { status: 400 });
     }
 
-    // Read the font file once and store it
     if (!fontBuffer) {
       try {
         fontBuffer = await fs.readFile(FONT_PATH);
@@ -38,10 +33,10 @@ export async function POST(req) {
     }
 
     const doc = new PDFDocument({
-    font: null // This tells pdfkit NOT to load a default font initially
+    font: null
   });
-    // Set the custom font directly
-    doc.font(fontBuffer); // Use the buffer directly with .font()
+    
+    doc.font(fontBuffer); 
 
     let buffers = [];
     doc.on('data', buffers.push.bind(buffers));
@@ -65,7 +60,7 @@ export async function POST(req) {
       doc.fontSize(18).text(`Topic: ${topic}`, { underline: true });
       doc.moveDown(0.5);
 
-      const prompt = `Provide concise, detailed short notes on the topic: "${topic}". Focus on key concepts, definitions, and essential information. Structure it clearly. Aim for 2-3 paragraphs.`;
+      const prompt = `Provide concise, detailed notes on the topic: "${topic}" for exams. Focus on key concepts, definitions, and essential information. Structure it clearly. Aim for 4-5 paragraphs.`;
       let aiText = "Could not retrieve notes for this topic.";
 
       try {
@@ -99,7 +94,7 @@ export async function POST(req) {
       console.log("PDF successfully written to disk.");
     } catch (fsError) {
       console.error("ERROR: File system operation failed (mkdir or writeFile):", fsError);
-      throw fsError; // Re-throw to be caught by outer catch block
+      throw fsError;
     }
 
     const pdfUrl = `/pdfs/${filename}`;
