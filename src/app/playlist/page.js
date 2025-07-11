@@ -3,12 +3,15 @@
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function PlaylistPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [youtubeUrl, setYoutubeUrl] = useState(null);
   const [error, setError] = useState(null);
+
+    
 
   useEffect(() => {
     const urlFromParams = searchParams.get('youtubeUrl');
@@ -31,7 +34,7 @@ export default function PlaylistPage() {
           onClick={() => router.back()}
           className="mb-6 px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600 transition duration-300"
         >
-          ← Back to Notes Generator
+          ← Back to Generator
         </button>
 
         <h1 className="text-3xl font-bold text-center mb-6 text-green-600">Your Curated Learning Playlist</h1>

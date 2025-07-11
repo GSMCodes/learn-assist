@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useSearchParams } from 'next/navigation'; 
+import Link from 'next/link';
 
 export default function NotesDisplayPage() {
   const searchParams = useSearchParams();
@@ -17,12 +18,12 @@ export default function NotesDisplayPage() {
           <p className="text-lg text-gray-300 mb-6">
             It looks like no PDF URL was provided. Please go back to the home page to generate your short notes.
           </p>
-          <a
+          <Link
             href="/" 
             className="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-800 text-white font-semibold rounded-lg shadow-md hover:from-blue-700 hover:to-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 transition-all duration-200 text-lg hover:cursor-pointer"
           >
             Go to Home Page
-          </a>
+          </Link>
         </div>
       </div>
     );
@@ -34,10 +35,20 @@ export default function NotesDisplayPage() {
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-gray-900 text-white p-6 md:p-10">
-      {/* Page Title */}
-      <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-8 text-center drop-shadow-lg">
-        Your AI Generated Short Notes
-      </h1>
+      <div className="w-full flex items-center justify-between mb-8">
+        <button
+          onClick={() => history.back()}
+          className="px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600 transition duration-300"
+        >
+          ← Back to Generator
+        </button>
+        <h1 className="text-2xl md:text-4xl font-extrabold text-white text-center flex-1">
+          Your AI Generated Short Notes
+        </h1>
+          {/* Empty div to balance space on the right */}
+        <div className="w-[140px] md:w-[180px]"></div>
+      </div>
+
 
       {/* PDF Display Area */}
       <div className="w-full max-w-4xl lg:max-w-6xl bg-gray-800 rounded-xl shadow-2xl p-2 md:p-4 mb-8 overflow-hidden"
