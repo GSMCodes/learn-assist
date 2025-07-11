@@ -1,11 +1,11 @@
 // app/notes/page.js
 import React, { Suspense } from 'react';
-import NotesDisplayPageClient from './NotesDisplayPageCLient';
+import NotesDisplayPage from './NotesDisplayPageCLient';
 
 export default function Page() {
   return (
     <Suspense fallback={<div className="text-white p-6">Loading notes...</div>}>
-      <NotesDisplayPageClient />
+      <NotesDisplayPage/>
     </Suspense>
   );
 }
