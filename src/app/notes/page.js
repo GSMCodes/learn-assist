@@ -1,6 +1,6 @@
 // app/notes/page.js
 import React, { Suspense } from 'react';
-import NotesDisplayPage from './NotesDisplayPageCLient';
+import NotesDisplayPage from './NotesDisplayPageClient';
 
 export default function Page() {
   return (
