@@ -4,7 +4,7 @@ import React from 'react';
 const Headings = () => {
   return (
 
-    <div className="z-10 max-w-4xl p-8 text-blue-50 text-center">
+    <div className="z-10 max-w-4xl p-8 text-gray-600 dark:text-blue-50 text-center">
       {}
       <div id='headings' className='mb-10'>
         {}

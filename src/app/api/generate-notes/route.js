@@ -33,8 +33,8 @@ export async function POST(req) {
     }
 
     const doc = new PDFDocument({
-    font: null
-  });
+      font: null
+    });
     
     doc.font(fontBuffer); 
 
@@ -85,23 +85,13 @@ export async function POST(req) {
     const finalPdfBuffer = await pdfPromise;
     console.log("PDF buffer obtained.");
 
-    const filename = `${uuidv4()}.pdf`;
-    const publicPdfPath = path.join(process.cwd(), 'public', 'pdfs', filename);
-
-    try {
-      console.log("Ensuring public/pdfs directory exists:", path.dirname(publicPdfPath));
-      await fs.mkdir(path.dirname(publicPdfPath), { recursive: true });
-      console.log("Writing PDF to:", publicPdfPath);
-      await fs.writeFile(publicPdfPath, finalPdfBuffer);
-      console.log("PDF successfully written to disk.");
-    } catch (fsError) {
-      console.error("ERROR: File system operation failed (mkdir or writeFile):", fsError);
-      throw fsError;
-    }
-
-    const pdfUrl = `/pdfs/${filename}`;
-    console.log("Returning PDF URL:", pdfUrl);
-    return NextResponse.json({ pdfPath: pdfUrl }, { status: 200 });
+    return new NextResponse(finalPdfBuffer, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': `attachment; filename="${uuidv4()}.pdf"`,
+      },
+    });
 
   } catch (error) {
     console.error('Final Catch Block ERROR in API route:', error);
