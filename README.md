@@ -78,7 +78,7 @@ To get a local copy up and running, follow these simple steps:
 
 **1. Clone the repository:**
 ```bash
-git clone https://github.com/your-username/learn-assist.git
+git clone https://github.com/GSMCodes/learn-assist.git
 cd learn-assist
 ```
 **2. Install Dependencies:**
